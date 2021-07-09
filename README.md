@@ -31,12 +31,12 @@ void main() {
 📫 How to reach me: farhan.fadila1717@gmail.com
 
 ### ❤️ Suport Maintener
-<a href="https://flutter.dev">
-    <img src="https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter"
-      alt="Platform" />
-  </a>
   <a href="https://www.paypal.me/farhanfadila1717">
     <img src="https://img.shields.io/badge/Donate-PayPal-00457C?logo=paypal"
+      alt="Donate" />
+</a>
+  <a href="https://linktr.ee/farhanfadila">
+    <img src="https://img.shields.io/badge/Linktree-farhanfadila-orange"
       alt="Donate" />
 </a>
 
