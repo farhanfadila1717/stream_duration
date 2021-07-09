@@ -21,6 +21,8 @@ void main() {
 
 ### Output Print Example
 
+[![Output][]][Output]
+
 ----
 
 ### 🚧 Maintener 
@@ -37,4 +39,6 @@ void main() {
     <img src="https://img.shields.io/badge/Donate-PayPal-00457C?logo=paypal"
       alt="Donate" />
 </a>
+
+[Output]: https://github.com/farhanfadila1717/stream_duration/blob/master/display/output.png
 
