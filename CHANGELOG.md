@@ -1,3 +1,3 @@
-## 1.0.0
+## 1.0.0-dev.1
 
-* First launch stable
+* First publish (internal testing)
