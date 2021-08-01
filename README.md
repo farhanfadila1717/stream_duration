@@ -1,4 +1,4 @@
-## Stream Duration
+## [![cover][]][cover]
 
 A dart package for stream duration.
 
@@ -21,24 +21,24 @@ void main() {
 
 ### Output Print Example
 
-[![Output][]][Output]
+[![output][]][output]
 
 ----
 
 ### 🚧 Maintener 
-<a href="https://github.com/farhanfadila1717"><img src="https://avatars.githubusercontent.com/u/43161050?s=100" width="80px;" alt="Farhan Fadila"/></a><br>
+[![account avatar][]][github account] <br>
 **Farhan Fadila** <br>
 📫 How to reach me: farhan.fadila1717@gmail.com
 
 ### ❤️ Suport Maintener
-  <a href="https://www.paypal.me/farhanfadila1717">
-    <img src="https://img.shields.io/badge/Donate-PayPal-00457C?logo=paypal"
-      alt="Donate" />
-</a>
-  <a href="https://linktr.ee/farhanfadila">
-    <img src="https://img.shields.io/badge/Linktree-farhanfadila-orange"
-      alt="Donate" />
-</a>
+[![badge paypal][]][paypal account] [![badge linktree][]][linktree account]
 
-[Output]: https://github.com/farhanfadila1717/stream_duration/blob/master/display/output.png
+[cover]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/stream_duration.png
+[output]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/output.png
+[account avatar]: https://avatars.githubusercontent.com/u/43161050?s=80
+[github account]: https://github.com/farhanfadila1717
+[badge linktree]: https://img.shields.io/badge/Linktree-farhanfadila-orange
+[linktree account]: https://linktr.ee/farhanfadila
+[badge paypal]: https://img.shields.io/badge/Donate-PayPal-00457C?logo=paypal
+[paypal account]: https://www.paypal.me/farhanfadila1717
 
