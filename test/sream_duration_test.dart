@@ -9,7 +9,7 @@ void main() {
     var index = 0;
 
     setUp(() {
-      streamDuration = StreamDuration(Duration(seconds: 10), () {
+      streamDuration = StreamDuration(Duration(seconds: 10), onDone: () {
         print('Stream Donde & disposed');
       });
     });
