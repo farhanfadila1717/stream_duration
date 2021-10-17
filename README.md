@@ -1,16 +1,18 @@
 ## [![cover][]][cover]
 
-A dart package for stream duration.
+A dart package for stream duration, support countdown, countup, and countup infinity.
 
 ----
 
-### Example
+### Example Countdown
 ```dart
-import 'package:time_left/time_left.dart';
+import 'package:stream_duration/stream_duration.dart';
+
 
 void main() {
-  var streamDuration = StreamDuration(Duration(seconds: 10), () {
-    print('Stream Done');
+  /// Countdown
+  var streamDuration = StreamDuration(Duration(seconds: 10), onDone: () {
+    print('Stream Done 👍');
   });
 
   streamDuration.durationLeft.listen((event) {
@@ -19,9 +21,54 @@ void main() {
 }
 ```
 
-### Output Print Example
+### Output Countdown
 
 [![output][]][output]
+
+---
+
+### Example Count Up
+```dart
+import 'package:stream_duration/stream_duration.dart';
+
+
+void main() {
+   /// Countup
+  var streamDurationUp = StreamDuration(Duration(seconds: 10), onDone: () {
+    print('Stream Done 👍');
+  }, countUp: true);
+
+  streamDurationUp.durationLeft.listen((event) {
+    print(event.inSeconds);
+  });
+}
+```
+
+### Output Count Up
+
+[![output up][]][output up]
+
+----
+
+### Example Count Up Infinity
+```dart
+import 'package:stream_duration/stream_duration.dart';
+
+
+void main() {
+  /// Countup Infinity
+  var streamDurationUpInfinity =
+      StreamDuration(Duration(seconds: 10), countUp: true, infinity: true);
+
+  streamDurationUpInfinity.durationLeft.listen((event) {
+    print(event.inSeconds);
+  });
+}
+```
+
+### Output Count Up Infinity
+
+[![output infinity][]][output infinity]
 
 ----
 
@@ -35,6 +82,8 @@ void main() {
 
 [cover]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/stream_duration.png
 [output]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/output.png
+[output up]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/output_1.png
+[output infinity]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/output_2.png
 [account avatar]: https://avatars.githubusercontent.com/u/43161050?s=80
 [github account]: https://github.com/farhanfadila1717
 [badge linktree]: https://img.shields.io/badge/Linktree-farhanfadila-orange

@@ -8,7 +8,7 @@ class StreamDuration {
 
   StreamDuration(
     Duration duration, {
-    required Function onDone,
+    Function? onDone,
     bool countUp = false,
     bool infinity = false,
   }) {
@@ -32,7 +32,9 @@ class StreamDuration {
             if (event.isSameDuration(duration)) {
               dispose();
               Future.delayed(Duration(seconds: 1), () {
-                onDone();
+                if (onDone != null) {
+                  onDone();
+                }
               });
             }
           }
@@ -40,7 +42,9 @@ class StreamDuration {
           if (event.inSeconds == 0) {
             dispose();
             Future.delayed(Duration(seconds: 1), () {
-              onDone();
+              if (onDone != null) {
+                onDone();
+              }
             });
           }
         }
