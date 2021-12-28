@@ -14,7 +14,14 @@ class StreamDuration {
   }) {
     try {
       var _durationLeft = countUp ? Duration.zero : duration;
-
+      if (countUp) {
+        _durationLeft += Duration(seconds: 1);
+      } else {
+        _durationLeft -= Duration(seconds: 1);
+      }
+      if (!_streamController.isClosed) {
+        _streamController.add(_durationLeft);
+      }
       _streamSubscription =
           Stream<Duration>.periodic(Duration(seconds: 1), (_) {
         if (countUp) {
