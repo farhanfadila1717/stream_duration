@@ -29,14 +29,24 @@ class StreamDuration {
         } else {
           return _durationLeft -= Duration(seconds: 1);
         }
-      }).listen((event) {
-        if (!_streamController.isClosed) {
+      }).listen(
+        (event) {
+          if (_streamController.isClosed) return;
           _streamController.add(event);
-        }
 
-        if (countUp) {
-          if (!infinity) {
-            if (event.isSameDuration(duration)) {
+          if (countUp) {
+            if (!infinity) {
+              if (event.isSameDuration(duration)) {
+                dispose();
+                Future.delayed(Duration(seconds: 1), () {
+                  if (onDone != null) {
+                    onDone();
+                  }
+                });
+              }
+            }
+          } else {
+            if (event.inSeconds == 0) {
               dispose();
               Future.delayed(Duration(seconds: 1), () {
                 if (onDone != null) {
@@ -45,19 +55,10 @@ class StreamDuration {
               });
             }
           }
-        } else {
-          if (event.inSeconds == 0) {
-            dispose();
-            Future.delayed(Duration(seconds: 1), () {
-              if (onDone != null) {
-                onDone();
-              }
-            });
-          }
-        }
-      });
+        },
+      );
     } catch (e) {
-      throw Exception(e);
+      throw 'Stream Duration: error' + e.toString();
     }
   }
 
