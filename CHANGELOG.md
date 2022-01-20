@@ -1,5 +1,8 @@
+## 2.0.0
+* Add: play, pause, resume
+
 ## 1.2.1
-* Fix closed controller
+* Fix: closed controller
 
 ## 1.2.0
 * Fix: Actual first duration callback
