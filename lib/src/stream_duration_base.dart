@@ -36,7 +36,6 @@ class StreamDuration {
 
   void play() {
     if (_streamController.hasListener) return;
-    print('Play');
     if (countUp) {
       _durationLeft += Duration(seconds: 1);
     } else {
