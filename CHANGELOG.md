@@ -1,4 +1,4 @@
-## 2.1.0
+## 2.0.2
 * Add: Function correct, add, subtract
 
 ## 2.0.1
