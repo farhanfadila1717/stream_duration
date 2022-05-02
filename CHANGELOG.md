@@ -1,3 +1,6 @@
+## 2.0.1
+* Remove print
+
 ## 2.0.0
 * Add: play, pause, resume
 
