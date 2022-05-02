@@ -28,6 +28,7 @@ class StreamDuration {
     this.autoPlay = true,
   }) {
     _durationLeft = duration;
+    if (duration.inSeconds <= 0 && !countUp) return;
     if (autoPlay) {
       play();
       isPlaying = true;
@@ -37,9 +38,9 @@ class StreamDuration {
   void play() {
     if (_streamController.hasListener) return;
     if (countUp) {
-      _durationLeft += Duration(seconds: 1);
+      _durationLeft += const Duration(seconds: 1);
     } else {
-      _durationLeft -= Duration(seconds: 1);
+      _durationLeft -= const Duration(seconds: 1);
     }
     if (!_streamController.isClosed) {
       _streamController.add(_durationLeft);
@@ -82,6 +83,46 @@ class StreamDuration {
         }
       },
     );
+  }
+
+  /// If you need override current duration
+  /// add or subtract [_durationLeft] with other duration
+  /// & [countUp] is true will automate add [_durationLeft]
+  /// & [countUp] is fale will automate subtract [_durationLeft]
+  void correct(Duration duration) {
+    if (countUp) {
+      add(duration);
+    } else {
+      subtract(duration);
+    }
+  }
+
+  void add(Duration duration) {
+    if (countUp && !infinity && duration >= _durationLeft) {
+      _durationLeft += duration;
+      dispose();
+      Future.delayed(Duration(seconds: 1), () {
+        if (onDone != null) {
+          onDone!();
+        }
+      });
+    } else {
+      _durationLeft += duration;
+    }
+  }
+
+  void subtract(Duration duration) {
+    if (!countUp && _durationLeft <= duration) {
+      _durationLeft = Duration.zero;
+      dispose();
+      Future.delayed(Duration(seconds: 1), () {
+        if (onDone != null) {
+          onDone!();
+        }
+      });
+    } else {
+      _durationLeft -= duration;
+    }
   }
 
   void pause() {

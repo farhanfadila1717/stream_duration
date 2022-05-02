@@ -1,3 +1,6 @@
+## 2.1.0
+* Add: Function correct, add, subtract
+
 ## 2.0.1
 * Remove print
 
