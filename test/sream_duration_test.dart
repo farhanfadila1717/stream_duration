@@ -35,4 +35,22 @@ void main() {
       );
     },
   );
+
+  test('Change duration test', () {
+    final streamDuration = StreamDuration(
+      Duration(seconds: 10),
+      onDone: () {
+        print('Stream Donde & disposed');
+      },
+    );
+
+    // Expect initalize duration is match
+    expect(streamDuration.remainingDuration.inSeconds, 10);
+
+    // Change duration
+    streamDuration.changeDuration(Duration(seconds: 20));
+
+    // Expect change duration match
+    expect(streamDuration.remainingDuration.inSeconds, 20);
+  });
 }
