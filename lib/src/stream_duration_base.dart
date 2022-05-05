@@ -85,6 +85,8 @@ class StreamDuration {
     );
   }
 
+  void changeDuration(Duration duration) => _durationLeft = duration;
+
   /// If you need override current duration
   /// add or subtract [_durationLeft] with other duration
   /// & [countUp] is true will automate add [_durationLeft]
@@ -124,6 +126,8 @@ class StreamDuration {
       _durationLeft -= duration;
     }
   }
+
+  Duration get remainingDuration => _durationLeft;
 
   void pause() {
     _streamSubscription?.pause();
