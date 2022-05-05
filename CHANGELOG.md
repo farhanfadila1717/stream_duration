@@ -1,3 +1,6 @@
+## 2.0.3
+* Add: change duration.
+
 ## 2.0.2
 * Add: Function correct, add, subtract
 
