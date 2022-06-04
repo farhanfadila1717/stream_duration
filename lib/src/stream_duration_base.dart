@@ -27,7 +27,7 @@ class StreamDuration {
     this.onDone,
     this.autoPlay = true,
   }) {
-    _durationLeft = duration;
+    _durationLeft = countUp ? Duration.zero : duration;
     if (duration.inSeconds <= 0 && !countUp) return;
     if (autoPlay) {
       play();
@@ -85,7 +85,22 @@ class StreamDuration {
     );
   }
 
-  void changeDuration(Duration duration) => _durationLeft = duration;
+  void changeDuration(Duration duration) {
+    if (countUp) {
+      if (_durationLeft > duration) {
+        dispose();
+        Future.delayed(Duration(seconds: 1), () {
+          if (onDone != null) {
+            onDone!();
+          }
+        });
+      } else {
+        _durationLeft = duration;
+      }
+    } else {
+      _durationLeft = duration;
+    }
+  }
 
   /// If you need override current duration
   /// add or subtract [_durationLeft] with other duration
