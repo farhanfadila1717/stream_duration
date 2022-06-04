@@ -1,4 +1,7 @@
 ## 2.0.3
+* Fix: countUp initial duration.
+
+## 2.0.3
 * Add: change duration.
 
 ## 2.0.2
