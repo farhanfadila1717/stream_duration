@@ -1,6 +1,6 @@
 name: stream_duration
 description: A dart package for stream duration, support countdown, countup, and countup infinity.
-version: 2.0.4
+version: 3.0.0
 homepage: https://github.com/farhanfadila1717/stream_duration
 maintener: Farhan Fadila (@farhanfadila1717)
 

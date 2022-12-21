@@ -1,3 +1,7 @@
+## 3.0.1
+* Fix : subtract duration when remaining duration less than new duration.
+* Breaking changes: method `changeDuration` to `change`.
+
 ## 2.0.4
 * Fix: countUp initial duration.
 
