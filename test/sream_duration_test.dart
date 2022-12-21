@@ -48,7 +48,7 @@ void main() {
     expect(streamDuration.remainingDuration.inSeconds, 10);
 
     // Change duration
-    streamDuration.changeDuration(Duration(seconds: 20));
+    streamDuration.change(Duration(seconds: 20));
 
     // Expect change duration match
     expect(streamDuration.remainingDuration.inSeconds, 20);

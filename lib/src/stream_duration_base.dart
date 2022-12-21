@@ -85,7 +85,7 @@ class StreamDuration {
     );
   }
 
-  void changeDuration(Duration duration) {
+  void change(Duration duration) {
     if (countUp) {
       if (_durationLeft > duration) {
         dispose();
@@ -138,7 +138,17 @@ class StreamDuration {
         }
       });
     } else {
-      _durationLeft -= duration;
+      if (_durationLeft <= duration) {
+        _durationLeft = Duration.zero;
+        dispose();
+        Future.delayed(Duration(seconds: 1), () {
+          if (onDone != null) {
+            onDone!();
+          }
+        });
+      } else {
+        _durationLeft -= duration;
+      }
     }
   }
 

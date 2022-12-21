@@ -9,7 +9,7 @@ void main() {
     },
   );
 
-  streamDuration.changeDuration(const Duration(seconds: 10));
+  streamDuration.change(const Duration(seconds: 10));
 
   streamDuration.durationLeft.listen((duration) {
     print('Duration $duration');
