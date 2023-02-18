@@ -92,7 +92,7 @@ class StreamDuration {
 
   void change(Duration duration) {
     if (countUp) {
-      if (_durationLeft > duration) {
+      if (_durationLeft > duration && !infinity) {
         dispose();
         Future.delayed(Duration(seconds: 1), () {
           if (onDone != null) {
