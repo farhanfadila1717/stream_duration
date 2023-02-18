@@ -17,17 +17,22 @@ class StreamDuration {
   final Duration duration;
   final Function? onDone;
   final bool countUp;
+  final bool countUpAtDuration;
   final bool infinity;
   final bool autoPlay;
 
   StreamDuration(
     this.duration, {
     this.countUp = false,
+    this.countUpAtDuration = false,
     this.infinity = false,
     this.onDone,
     this.autoPlay = true,
   }) {
     _durationLeft = countUp ? Duration.zero : duration;
+    if(countUp&&countUpAtDuration){
+      _durationLeft = duration;
+    }
     if (duration.inSeconds <= 0 && !countUp) return;
     if (autoPlay) {
       play();
