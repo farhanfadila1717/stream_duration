@@ -1,4 +1,7 @@
-## 3.0.1
+## 3.1.0
+* Add `countUpAtDuration`
+
+## 3.0.0
 * Fix : subtract duration when remaining duration less than new duration.
 * Breaking changes: method `changeDuration` to `change`.
 

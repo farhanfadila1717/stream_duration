@@ -1,10 +1,6 @@
 import 'dart:async';
 
-extension DurationExtension on Duration {
-  bool isSameDuration(Duration b) {
-    return inSeconds == b.inSeconds;
-  }
-}
+import 'package:stream_duration/src/utils.dart';
 
 class StreamDuration {
   final StreamController<Duration> _streamController =
@@ -29,7 +25,7 @@ class StreamDuration {
     this.autoPlay = true,
   }) {
     _durationLeft = countUp ? Duration.zero : duration;
-    if(countUp&&countUpAtDuration){
+    if (countUp && countUpAtDuration) {
       _durationLeft = duration;
     }
     if (duration.inSeconds <= 0 && !countUp) return;
