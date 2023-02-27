@@ -2,60 +2,86 @@ import 'dart:async';
 
 import 'package:stream_duration/src/utils.dart';
 
+const _oneSeconds = Duration(seconds: 1);
+
 class StreamDuration {
   final StreamController<Duration> _streamController =
       StreamController<Duration>();
-  late Duration _durationLeft;
+
+  Duration _durationLeft = Duration.zero;
+
   Stream<Duration> get durationLeft => _streamController.stream;
+
   StreamSubscription<Duration>? _streamSubscription;
 
+  /// Duration start of count down
+  /// MaxDuration when countUp is true and
+  /// `infinity` and `countUpAtDuration` is false
   final Duration duration;
-  final Function? onDone;
+
+  /// if true Duration will increment
+  /// if false Duration will decrement
   final bool countUp;
+
+  /// count up start at `duration`
+  /// if this true count up is `infinity`
   final bool countUpAtDuration;
+
+  /// only effect when `countUp`
   final bool infinity;
+
+  /// Auto play when `StreamDuration` initialized
   final bool autoPlay;
+
+  /// When duration is count down duration is equal remainingDuration
+  /// onDone will called
+  ///
+  /// Never called when `countUp` is `infinity` or `countUpAtDuration`
+  final Function? onDone;
 
   StreamDuration(
     this.duration, {
     this.countUp = false,
+    this.autoPlay = true,
     this.countUpAtDuration = false,
     this.infinity = false,
     this.onDone,
-    this.autoPlay = true,
   }) {
     if (duration.inSeconds <= 0 && !countUp) return;
 
-    _durationLeft = countUp ? Duration.zero : duration;
-    if (countUp && countUpAtDuration) {
-      _durationLeft = duration;
-    }
-
-    if (autoPlay) {
-      play();
-    }
+    if (autoPlay) play();
   }
 
   void play() {
-    if (_streamController.hasListener) return;
     if (countUp) {
-      _durationLeft += const Duration(seconds: 1);
+      if (countUpAtDuration) {
+        _durationLeft = duration;
+      } else {
+        _durationLeft = Duration.zero;
+      }
+      _durationLeft += _oneSeconds;
     } else {
-      _durationLeft -= const Duration(seconds: 1);
+      _durationLeft = duration;
+      _durationLeft -= _oneSeconds;
     }
+
     if (!_streamController.isClosed) {
       _streamController.add(_durationLeft);
     }
-    _streamSubscription = Stream<Duration>.periodic(Duration(seconds: 1), (_) {
-      if (!(_streamSubscription?.isPaused ?? true)) {
-        if (countUp) {
-          return _durationLeft += Duration(seconds: 1);
-        } else {
-          return _durationLeft -= Duration(seconds: 1);
+
+    _streamSubscription = Stream<Duration>.periodic(
+      _oneSeconds,
+      (_) {
+        if (!(_streamSubscription?.isPaused ?? true)) {
+          if (countUp) {
+            return _durationLeft += _oneSeconds;
+          } else {
+            return _durationLeft -= _oneSeconds;
+          }
         }
-      }
-      return Duration.zero;
-    }).listen(
+        return Duration.zero;
+      },
+    ).listen(
       (event) {
         if (_streamController.isClosed) return;
         _streamController.add(_durationLeft);
@@ -63,33 +89,29 @@ class StreamDuration {
         if (countUp) {
           if (!infinity) {
             if (_durationLeft.isSameDuration(duration)) {
-              dispose();
-              Future.delayed(Duration(seconds: 1), () {
-                onDone?.call();
-              });
+              _onDone();
             }
           }
         } else {
           if (_durationLeft.inSeconds == 0) {
-            dispose();
-            Future.delayed(Duration(seconds: 1), () {
-              onDone?.call();
-            });
+            _onDone();
           }
         }
       },
     );
   }
 
+  void _onDone() {
+    _dispose();
+    Future.delayed(_oneSeconds, () {
+      onDone?.call();
+    });
+  }
+
   void change(Duration duration) {
     if (countUp) {
       if (_durationLeft > duration && !infinity) {
-        dispose();
-        Future.delayed(Duration(seconds: 1), () {
-          if (onDone != null) {
-            onDone!();
-          }
-        });
+        _onDone();
       } else {
         _durationLeft = duration;
       }
@@ -111,37 +133,20 @@ class StreamDuration {
   }
 
   void add(Duration duration) {
+    _durationLeft += duration;
     if (countUp && !infinity && duration >= _durationLeft) {
-      _durationLeft += duration;
-      dispose();
-      Future.delayed(Duration(seconds: 1), () {
-        if (onDone != null) {
-          onDone!();
-        }
-      });
-    } else {
-      _durationLeft += duration;
+      _onDone();
     }
   }
 
   void subtract(Duration duration) {
     if (!countUp && _durationLeft <= duration) {
       _durationLeft = Duration.zero;
-      dispose();
-      Future.delayed(Duration(seconds: 1), () {
-        if (onDone != null) {
-          onDone!();
-        }
-      });
+      _onDone();
     } else {
       if (_durationLeft <= duration) {
         _durationLeft = Duration.zero;
-        dispose();
-        Future.delayed(Duration(seconds: 1), () {
-          if (onDone != null) {
-            onDone!();
-          }
-        });
+        _onDone();
       } else {
         _durationLeft -= duration;
       }
@@ -150,15 +155,15 @@ class StreamDuration {
 
   Duration get remainingDuration => _durationLeft;
 
-  void pause() {
+  void pause() => _streamSubscription?.pause();
+
+  void resume() => _streamSubscription?.resume();
+
+  void _dispose() {
     _streamSubscription?.pause();
   }
 
-  void resume() {
-    _streamSubscription?.resume();
-  }
-
-  void dispose() {
+  void disponse() {
     _streamSubscription?.cancel();
     _streamController.close();
   }
