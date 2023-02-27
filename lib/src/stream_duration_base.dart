@@ -102,7 +102,7 @@ class StreamDuration {
   }
 
   void _onDone() {
-    _dispose();
+    dispose();
     Future.delayed(_oneSeconds, () {
       onDone?.call();
     });
@@ -159,11 +159,7 @@ class StreamDuration {
 
   void resume() => _streamSubscription?.resume();
 
-  void _dispose() {
-    _streamSubscription?.pause();
-  }
-
-  void disponse() {
+  void dispose() {
     _streamSubscription?.cancel();
     _streamController.close();
   }
