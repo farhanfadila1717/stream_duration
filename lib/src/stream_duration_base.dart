@@ -24,12 +24,16 @@ class StreamDuration {
     this.onDone,
     this.autoPlay = true,
   }) {
+    if (duration.inSeconds <= 0 && !countUp) return;
+
     _durationLeft = countUp ? Duration.zero : duration;
     if (countUp && countUpAtDuration) {
       _durationLeft = duration;
     }
-    if (duration.inSeconds <= 0 && !countUp) return;
-    play();
+
+    if (autoPlay) {
+      play();
+    }
   }
 
   void play() {
@@ -41,9 +45,6 @@ class StreamDuration {
     }
     if (!_streamController.isClosed) {
       _streamController.add(_durationLeft);
-    }
-    if(!autoPlay){
-      return;
     }
     _streamSubscription = Stream<Duration>.periodic(Duration(seconds: 1), (_) {
       if (!(_streamSubscription?.isPaused ?? true)) {
@@ -64,9 +65,7 @@ class StreamDuration {
             if (_durationLeft.isSameDuration(duration)) {
               dispose();
               Future.delayed(Duration(seconds: 1), () {
-                if (onDone != null) {
-                  onDone!();
-                }
+                onDone?.call();
               });
             }
           }
@@ -74,9 +73,7 @@ class StreamDuration {
           if (_durationLeft.inSeconds == 0) {
             dispose();
             Future.delayed(Duration(seconds: 1), () {
-              if (onDone != null) {
-                onDone!();
-              }
+              onDone?.call();
             });
           }
         }
