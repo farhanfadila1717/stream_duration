@@ -6,7 +6,6 @@ class StreamDuration {
   final StreamController<Duration> _streamController =
       StreamController<Duration>();
   late Duration _durationLeft;
-  bool isPlaying = false;
   Stream<Duration> get durationLeft => _streamController.stream;
   StreamSubscription<Duration>? _streamSubscription;
 
@@ -30,10 +29,7 @@ class StreamDuration {
       _durationLeft = duration;
     }
     if (duration.inSeconds <= 0 && !countUp) return;
-    if (autoPlay) {
-      play();
-      isPlaying = true;
-    }
+    play();
   }
 
   void play() {
@@ -46,7 +42,9 @@ class StreamDuration {
     if (!_streamController.isClosed) {
       _streamController.add(_durationLeft);
     }
-
+    if(!autoPlay){
+      return;
+    }
     _streamSubscription = Stream<Duration>.periodic(Duration(seconds: 1), (_) {
       if (!(_streamSubscription?.isPaused ?? true)) {
         if (countUp) {
@@ -88,7 +86,7 @@ class StreamDuration {
 
   void change(Duration duration) {
     if (countUp) {
-      if (_durationLeft > duration) {
+      if (_durationLeft > duration && !infinity) {
         dispose();
         Future.delayed(Duration(seconds: 1), () {
           if (onDone != null) {
