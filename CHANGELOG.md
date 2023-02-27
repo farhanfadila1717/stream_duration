@@ -1,4 +1,8 @@
 ## 3.1.0
+* Fix `autoPlay`
+* Add docs
+
+## 3.1.0
 * Add `countUpAtDuration`
 
 ## 3.0.0
