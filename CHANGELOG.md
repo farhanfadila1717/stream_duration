@@ -1,4 +1,4 @@
-## 4.0.0
+## 4.0.1
 * Add: `StreamDurationConfig`, `CountUpConfig`, `CountdownConfig`
 * Breaking changes: change `duration` parameter to `StreamDurationConfig`
 
