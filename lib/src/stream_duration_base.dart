@@ -114,7 +114,7 @@ class StreamDuration {
   void subtract(Duration duration) {
     _durationLeft -= duration;
     if (_durationLeft.isNegative) {
-      throw const FormatException('Duration cannot be negative');
+      throw Exception('Duration cannot be negative');
     }
     if (isDone) _onDone();
   }
