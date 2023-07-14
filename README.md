@@ -11,9 +11,15 @@ import 'package:stream_duration/stream_duration.dart';
 
 void main() {
   /// Countdown
-  var streamDuration = StreamDuration(Duration(seconds: 10), onDone: () {
-    print('Stream Done 👍');
-  });
+  final streamDuration = StreamDuration(
+    config: StreamDurationConfig(
+      autoPlay: true,
+      countDownConfig: CountDownConfig(
+        duration: Duration(seconds: 10),
+      ),
+      onDone: () => print('Stream Done 👍'),
+    ),
+  );
 
   streamDuration.durationLeft.listen((event) {
     print(event.inSeconds);
@@ -34,9 +40,20 @@ import 'package:stream_duration/stream_duration.dart';
 
 void main() {
    /// Countup
-  var streamDurationUp = StreamDuration(Duration(seconds: 10), onDone: () {
-    print('Stream Done 👍');
-  }, countUp: true);
+  final streamDuration = StreamDuration(
+    config: StreamDurationConfig(
+      autoPlay: true,
+      countUpConfig: CountUpConfig(
+        /// the duration count up will start from zero
+        initialDuration: Duration.zero,
+        /// max duration can count up; 
+        /// onDone will called if current duration 
+        /// greater than equals maxDuration
+        maxDuration: Duration(seconds: 10),
+      ),
+      onDone: () => print('Stream Done 👍'),
+    ),
+  );
 
   streamDurationUp.durationLeft.listen((event) {
     print(event.inSeconds);
@@ -56,13 +73,20 @@ import 'package:stream_duration/stream_duration.dart';
 
 
 void main() {
-  /// Countup Infinity
-  var streamDurationUpInfinity =
-      StreamDuration(Duration(seconds: 10), countUp: true, infinity: true);
-
-  streamDurationUpInfinity.durationLeft.listen((event) {
-    print(event.inSeconds);
-  });
+  final streamDuration = StreamDuration(
+    config: StreamDurationConfig(
+      autoPlay: true,
+      countUpConfig: CountUpConfig(
+        /// the duration count up will start from zero
+        initialDuration: Duration.zero,
+        /// set max duration as null
+        /// for infinity count up 
+        maxDuration: null,
+      ),
+      /// onDone never called 
+      onDone: () => print('Stream Done 👍'),
+    ),
+  );
 }
 ```
 
