@@ -43,6 +43,7 @@ void main() {
   final streamDuration = StreamDuration(
     config: StreamDurationConfig(
       autoPlay: true,
+      isCountUp: true,
       countUpConfig: CountUpConfig(
         /// the duration count up will start from zero
         initialDuration: Duration.zero,
@@ -76,6 +77,7 @@ void main() {
   final streamDuration = StreamDuration(
     config: StreamDurationConfig(
       autoPlay: true,
+      isCountUp: true,
       countUpConfig: CountUpConfig(
         /// the duration count up will start from zero
         initialDuration: Duration.zero,
