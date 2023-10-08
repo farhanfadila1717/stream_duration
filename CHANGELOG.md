@@ -1,3 +1,10 @@
+## 4.0.2
+* export: `StreamDurationConfig`, `CountUpConfig`, `CountdownConfig`
+
+## 4.0.1
+* Add: `StreamDurationConfig`, `CountUpConfig`, `CountdownConfig`
+* Breaking changes: change `duration` parameter to `StreamDurationConfig`
+
 ## 3.2.1
 * Fix `autoPlay`
 * Add docs

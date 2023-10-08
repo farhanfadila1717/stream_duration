@@ -1,10 +1,16 @@
 import 'dart:async';
 
-import 'package:stream_duration/src/utils.dart';
+import 'package:stream_duration/src/config/config.dart';
 
 const _oneSeconds = Duration(seconds: 1);
 
 class StreamDuration {
+  StreamDuration({
+    required this.config,
+  }) {
+    _init();
+  }
+
   final StreamController<Duration> _streamController =
       StreamController<Duration>();
 
@@ -17,51 +23,24 @@ class StreamDuration {
   /// Duration start of count down
   /// MaxDuration when countUp is true and
   /// `infinity` and `countUpAtDuration` is false
-  final Duration duration;
+  final StreamDurationConfig config;
 
-  /// if true Duration will increment
-  /// if false Duration will decrement
-  final bool countUp;
+  bool get _isCountUp => config.isCountUp;
 
-  /// count up start at `duration`
-  /// if this true count up is `infinity`
-  final bool countUpAtDuration;
-
-  /// only effect when `countUp`
-  final bool infinity;
-
-  /// Auto play when `StreamDuration` initialized
-  final bool autoPlay;
-
-  /// When duration is count down duration is equal remainingDuration
-  /// onDone will called
-  ///
-  /// Never called when `countUp` is `infinity` or `countUpAtDuration`
-  final Function? onDone;
-
-  StreamDuration(
-    this.duration, {
-    this.countUp = false,
-    this.autoPlay = true,
-    this.countUpAtDuration = false,
-    this.infinity = false,
-    this.onDone,
-  }) {
-    if (duration.inSeconds <= 0 && !countUp) return;
-
-    if (autoPlay) play();
+  CountUpConfig get _countUpConfig {
+    return config.countUpConfig ?? CountUpConfig.defaultConfig;
   }
 
-  void play() {
-    if (countUp) {
-      if (countUpAtDuration) {
-        _durationLeft = duration;
-      } else {
-        _durationLeft = Duration.zero;
-      }
+  void _init() {
+    if (config.isCountUp) {
+      _durationLeft = _countUpConfig.initialDuration;
       _durationLeft += _oneSeconds;
     } else {
-      _durationLeft = duration;
+      final countDownConfig = config.countDownConfig;
+      if (countDownConfig == null) {
+        throw Exception('CountDownConfig is required');
+      }
+      _durationLeft = countDownConfig.duration;
       _durationLeft -= _oneSeconds;
     }
 
@@ -69,14 +48,18 @@ class StreamDuration {
       _streamController.add(_durationLeft);
     }
 
+    if (config.autoPlay) play();
+  }
+
+  void play() {
     _streamSubscription = Stream<Duration>.periodic(
-      _oneSeconds,
+      config.periodic,
       (_) {
         if (!(_streamSubscription?.isPaused ?? true)) {
-          if (countUp) {
-            return _durationLeft += _oneSeconds;
+          if (_isCountUp) {
+            return _durationLeft += config.periodic;
           } else {
-            return _durationLeft -= _oneSeconds;
+            return _durationLeft -= config.periodic;
           }
         }
         return Duration.zero;
@@ -86,46 +69,37 @@ class StreamDuration {
         if (_streamController.isClosed) return;
         _streamController.add(_durationLeft);
 
-        if (countUp) {
-          if (!infinity) {
-            if (_durationLeft.isSameDuration(duration)) {
-              _onDone();
-            }
-          }
-        } else {
-          if (_durationLeft.inSeconds == 0) {
-            _onDone();
-          }
-        }
+        if (isDone) _onDone();
       },
     );
+  }
+
+  bool get isDone {
+    if (!_isCountUp && _durationLeft.inSeconds <= 0) return true;
+
+    return _isCountUp &&
+        !_countUpConfig.isInfinity &&
+        _durationLeft >= _countUpConfig.maxDuration!;
   }
 
   void _onDone() {
     dispose();
     Future.delayed(_oneSeconds, () {
-      onDone?.call();
+      config.onDone?.call();
     });
   }
 
   void change(Duration duration) {
-    if (countUp) {
-      if (_durationLeft > duration && !infinity) {
-        _onDone();
-      } else {
-        _durationLeft = duration;
-      }
-    } else {
-      _durationLeft = duration;
-    }
+    _durationLeft = duration;
+    if (isDone) _onDone();
   }
 
   /// If you need override current duration
   /// add or subtract [_durationLeft] with other duration
-  /// & [countUp] is true will automate add [_durationLeft]
-  /// & [countUp] is fale will automate subtract [_durationLeft]
+  /// & countUp is true will automate add [_durationLeft]
+  /// & countUp is fale will automate subtract [_durationLeft]
   void correct(Duration duration) {
-    if (countUp) {
+    if (_isCountUp) {
       add(duration);
     } else {
       subtract(duration);
@@ -134,23 +108,15 @@ class StreamDuration {
 
   void add(Duration duration) {
     _durationLeft += duration;
-    if (countUp && !infinity && duration >= _durationLeft) {
-      _onDone();
-    }
+    if (isDone) _onDone();
   }
 
   void subtract(Duration duration) {
-    if (!countUp && _durationLeft <= duration) {
-      _durationLeft = Duration.zero;
-      _onDone();
-    } else {
-      if (_durationLeft <= duration) {
-        _durationLeft = Duration.zero;
-        _onDone();
-      } else {
-        _durationLeft -= duration;
-      }
+    _durationLeft -= duration;
+    if (_durationLeft.isNegative) {
+      throw Exception('Duration cannot be negative');
     }
+    if (isDone) _onDone();
   }
 
   Duration get remainingDuration => _durationLeft;
