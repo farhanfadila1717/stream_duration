@@ -1,4 +1,3 @@
-import 'package:stream_duration/src/config/config.dart';
 import 'package:stream_duration/stream_duration.dart';
 
 void main() {
