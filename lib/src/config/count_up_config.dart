@@ -20,7 +20,7 @@ class CountUpConfig {
     initialDuration: Duration.zero,
   );
 
-  bool get isInfinity => maxDuration != null && maxDuration! >= initialDuration;
+  bool get isInfinity => maxDuration == null || maxDuration! < initialDuration;
 
   bool isDone(Duration duration) => !isInfinity && duration >= maxDuration!;
 
