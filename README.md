@@ -106,10 +106,10 @@ void main() {
 ### ❤️ Suport Maintener
 [![badge paypal][]][paypal account] [![badge linktree][]][linktree account]
 
-[cover]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/stream_duration.png
-[output]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/output.png
-[output up]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/output_1.png
-[output infinity]: https://github.com/farhanfadila1717/flutter_package/blob/master/display/stream_duration/output_2.png
+[cover]: https://raw.githubusercontent.com/farhanfadila1717/flutter_package/master/display/stream_duration/stream_duration.png
+[output]: https://raw.githubusercontent.com/farhanfadila1717/flutter_package/master/display/stream_duration/output.png
+[output up]: https://raw.githubusercontent.com/farhanfadila1717/flutter_package/master/display/stream_duration/output_1.png
+[output infinity]: https://raw.githubusercontent.com/farhanfadila1717/flutter_package/master/display/stream_duration/output_2.png
 [account avatar]: https://avatars.githubusercontent.com/u/43161050?s=80
 [github account]: https://github.com/farhanfadila1717
 [badge linktree]: https://img.shields.io/badge/Linktree-farhanfadila-orange
