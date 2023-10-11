@@ -1,3 +1,6 @@
+## 4.2.0
+* fix: [#7](https://github.com/farhanfadila1717/stream_duration/pull/7) count up infinity logic thanks to [Tulio Calazans](https://github.com/tulioccalazans)
+
 ## 4.1.0
 * export: `StreamDurationConfig`, `CountUpConfig`, `CountdownConfig`
 
