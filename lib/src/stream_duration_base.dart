@@ -12,7 +12,7 @@ class StreamDuration {
   }
 
   final StreamController<Duration> _streamController =
-      StreamController<Duration>();
+      StreamController<Duration>.broadcast();
 
   Duration _durationLeft = Duration.zero;
 
