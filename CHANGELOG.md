@@ -1,3 +1,7 @@
+## 4.2.2
+
+getter isCountUp
+
 ## 4.2.1
 
 fix: Stream controller as broadcast

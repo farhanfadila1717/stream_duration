@@ -25,6 +25,8 @@ class StreamDuration {
   /// `infinity` and `countUpAtDuration` is false
   final StreamDurationConfig config;
 
+  bool get isCountUp => _isCountUp;
+
   bool get _isCountUp => config.isCountUp;
 
   CountUpConfig get _countUpConfig {
