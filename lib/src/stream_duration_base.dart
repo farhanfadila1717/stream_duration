@@ -36,14 +36,12 @@ class StreamDuration {
   void _init() {
     if (config.isCountUp) {
       _durationLeft = _countUpConfig.initialDuration;
-      _durationLeft += _oneSeconds;
     } else {
       final countDownConfig = config.countDownConfig;
       if (countDownConfig == null) {
         throw Exception('CountDownConfig is required');
       }
       _durationLeft = countDownConfig.duration;
-      _durationLeft -= _oneSeconds;
     }
 
     if (!_streamController.isClosed) {
@@ -86,9 +84,7 @@ class StreamDuration {
 
   void _onDone() {
     dispose();
-    Future.delayed(_oneSeconds, () {
-      config.onDone?.call();
-    });
+    config.onDone?.call();
   }
 
   void change(Duration duration) {
