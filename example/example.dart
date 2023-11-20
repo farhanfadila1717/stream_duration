@@ -4,7 +4,7 @@ void main() {
   /// Countdown
   final streamDuration = StreamDuration(
     config: StreamDurationConfig(
-      autoPlay: false,
+      autoPlay: true,
       countDownConfig: CountDownConfig(
         duration: Duration(seconds: 10),
       ),
@@ -12,7 +12,7 @@ void main() {
     ),
   );
 
-  streamDuration.play();
+  // streamDuration.play();
 
   // Change duration
   // streamDuration.change(const Duration(seconds: 10));

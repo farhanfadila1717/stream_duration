@@ -1,3 +1,7 @@
+## 4.3.0-dev.1
+
+fix: adjust duration when initialized
+
 ## 4.2.2
 
 getter isCountUp
